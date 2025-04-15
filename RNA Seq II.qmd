@@ -11,10 +11,10 @@ format: html
 ```
 
 ```{r}
-install.packages("viridisLite")
-install.packages("stringr")
-install.packages("RColorBrewer")
-install.packages("circlize")
+#install.packages("viridisLite")
+#install.packages("stringr")
+#install.packages("RColorBrewer")
+#install.packages("circlize")
 ```
 
 ```{r}
@@ -32,6 +32,10 @@ ecotype <- stringr::str_split(colnames(mat), ",", simplify = TRUE)[,1]
 part <- stringr::str_split(colnames(mat), ",", simplify = TRUE)[,2]
 ```
 
+-   The data set we are using is at_tf_gex.
+
+-   stringr is used to split the data by ecotype.
+
 ```{r}
 data_col_func <- circlize::colorRamp2(seq(0, max(mat), length.out = 6), viridisLite::magma(6))
 
@@ -42,17 +46,43 @@ part_colors <- RColorBrewer::brewer.pal(3, "Accent")
 names(part_colors) <- unique(part)
 ```
 
+-   Using circlize and viridisLite, different color palettes are created for different types of data for plant's ecotype and parts in the heatmap.
+
 ```{r}
 top_annot <- HeatmapAnnotation("Ecotype" = ecotype, "Plant Part" = part, col = list("Ecotype" = ecotype_colors, "Plant Part" = part_colors), annotation_name_side = "left")
 
 side_annot <- rowAnnotation(length = anno_points(at_tf_gex$Length, pch = 16, size = unit(1, "mm"), axis_param = list(at = seq(1, max(at_tf_gex$Length), length.out = 4)),))
 ```
 
+-   top_annot is used to label the information on ecotype and plant part.
+
+-   annotation_name_side: label the left of the color that they represent.
+
+-   side_annot: labels the rows of the heatmap.
+
+-   anno_points(): tells where exactly the points needs to be plotted.
+
+-   pch: tells the shape of the point.
+
+-   size: tells the size of the point.
+
+-   axis_param: tells the location of the ticks on the x-axis.
+
 ```{r}
 ht_1 <- Heatmap(mat, name="log(TPM)", row_km = 6, col = data_col_func, top_annotation = top_annot, right_annotation = side_annot, cluster_columns = TRUE, column_split = ecotype, show_column_names = FALSE, column_title = " ")
 
 ComplexHeatmap::draw(ht_1)
 ```
+
+-   row_km: set the number of clusters for the rows.
+
+-   cluster_colums: makes sure that columns in the heatmap are clustered together based on how similar is their gene expression.
+
+-   column_split: groups the column by ecotype.
+
+-   show_column_name: hides the column name to make the heat map look less clustered.
+
+### Conclusion
 
 -   I have learnt how to use R code to be able to filter out and select the required data sets and I think I am becoming more comfortable using R studio.
 

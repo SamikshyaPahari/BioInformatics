@@ -3,3 +3,98 @@ title: "RNA Seq I"
 format: html
 ---
 
+```{r}
+#install.packages("devtools")
+library(devtools)
+
+#devtools::install_github("danmaclean/rbioinfcookbook")
+library(rbioinfcookbook)
+```
+
+```{r}
+#install.packages("forcats")
+
+#if (!require("BiocManager", quietly = TRUE))
+    #install.packages("BiocManager")
+
+#BiocManager::install("edgeR")
+
+#if (!require("BiocManager", quietly = TRUE))
+   # install.packages("BiocManager")
+
+#BiocManager::install("Biobase")
+
+library(forcats)
+library(edgeR)
+library(Biobase)
+```
+
+-   forcats helps solve problems with factors, which are used to represent categorical data.
+
+-   BiocManager allows to install and manage packages from the Bioconductor which has statistical analysis of genomic data.
+
+-   edgeR is used in Rstudio to help analyze differential expression.
+
+-   Biobase implements the base functions for Bioconductor.
+
+```{r}
+genes <- count_dataframe[['gene']]
+count_dataframe[['gene']] <- NULL
+count_matrix <- as.matrix(count_dataframe)
+rownames(count_matrix) <- genes
+```
+
+-   The data set called count_dataframe was loaded froom the rbioinfcookbook and was converted into a data table that can be read by R.
+
+```{r}
+experiments_of_interest <- c("L1Larvae", "L2Larvae")
+columns_of_interest <- which(pheno_data[['stage']] %in% experiments_of_interest)
+```
+
+-   Another data set from rbionfcookbook was loaded called pheno_data that has phenotypic data about the samples. Only two experiments about the larvae, and their larval stage, L1 and L2 was chosen.
+
+```{r}
+grouping <- pheno_data[["stage"]] [columns_of_interest] |> forcats::as_factor()
+```
+
+-   Stage is set as a grouping factor to use to compare between samples.
+
+```{r}
+counts_of_interest <- count_matrix[,counts = columns_of_interest]
+```
+
+-   Columns that we are interested in is taken from count_matrix and is named columns_of_interest.
+
+```{r}
+count_dge <- edgeR::DGEList(counts = counts_of_interest, group = grouping)
+```
+
+DGEList is used to put all the data together in count_dge.
+
+```{r}
+design <- model.matrix(~grouping)
+eset_dge <- edgeR::estimateDisp(count_dge, design)
+fit <- edgeR::glmQLFit(eset_dge, design)
+result <- edgeR::glmQLFTest(fit, coef=2)
+topTags(result)
+```
+
+-   model.matrix: tells what variables we are testing with our model.
+
+-   estimateDisp: estimate the spread of the count data.
+
+-   glmQLFit: fir generalized linear model to the data.
+
+-   glmQLFTest: shows the likelihood ratio to identify differentially expressed genes.
+
+-   topTags: shows top differentially expressed genes.
+
+### Conclusion
+
+All the gene above is of the species D.melanogaster.
+
+The name of the gene FBgn0027527 is Osiris 6. It is located in endomembrane system and is expresed in embryonic dorsal epidermis, embryonic head epidermis, embryonic hypopharynx, embryonic ventral epidermis and gut section.
+
+The name of the gene FBgn0243586 is Tbby. It is predicted to be involved in body morphogenesis and chitin-based cuticle development and located in extracellular matrix. It is expressed in dorsal head epidermis; embryonic dorsal epidermis; embryonic ventral epidermis; lateral head epidermis; and ventral head epidermis.
+
+What I learnt is how to use different codes to get the specific RNA transcripts that we need to research from different genes of D.melanogaster using edgeR.

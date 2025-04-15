@@ -3,6 +3,8 @@ title: "Phylogenetic analysis and Visualization"
 format: html
 ---
 
+-   Creating the tree from mammal phylogeny from dataset in R Bioinformatics Cookbook.
+
 ```{r}
 #install.packages("ape")
 
@@ -22,6 +24,8 @@ format: html
 #BiocManager::install("SGSeq")
 ```
 
+-   ggtree is used to visualize evolutionary trees.
+
 ```{r}
 library(rbioinfcookbook)
 library(SGSeq)
@@ -40,6 +44,12 @@ newick <- ape::read.tree(newick_file_path)
 nexus <- ape::read.nexus(nexus_file_path)
 ```
 
+-   Newick: creates evolutionary trees in text format.
+
+-   Nexus: also creates evolutionary trees in text format but adds DNA sequences or traits in the tree.
+
+-   Both Newick and Nexus falls under ape package.
+
 ```{r}
 beast_file_path <- fs::path_package("extdata", "beast_mcc.tree", package = "rbioinfcookbook")
 
@@ -48,6 +58,12 @@ raxml_file_path <- fs::path_package("extdata", "RAxML_bipartitionsBranchLabels.H
 beast <- read.beast(beast_file_path)
 raxml <- read.raxml(raxml_file_path)
 ```
+
+-   This is the different package call treeio that has two different formats called BEAST and RAxML that is also used to create evolutionary trees.
+
+-   BEAST: uses Bayesian method to include different rates of evolution.
+
+-   RAxML: used for phylogenetic analysis of large datasets. It uses maximum likelihood which is the statistical technique used to find the best value for the evolutionary trees.
 
 ```{r}
 class(newick)
@@ -92,10 +108,14 @@ ggtree(itol) +
   geom_tiplab(color = "blue", size = 1)
 ```
 
+-   Using ggtree to add labels to the evolutionary tree.
+
 ```{r}
 ggtree(itol, layout = "circular") +
   geom_tiplab(color = "blue", size = 2)
 ```
+
+-   By adding circular layout in the already existing code above, we made the change in how the evolutionary tree could be read.
 
 ```{r}
 ggtree(itol, layout = "circular") +
@@ -103,11 +123,15 @@ ggtree(itol, layout = "circular") +
   geom_strip(13, 14, color = "red", barsize = 1)
 ```
 
+-   Using the color to highlight the particular clade.
+
 ```{r}
 ggtree(itol) +
   coord_flip() +
   scale_x_reverse()
 ```
+
+-   The same evolutionary tree could be invereted and read in the different format.
 
 ```{r}
 ggtree(itol, layout = "unrooted")
@@ -128,5 +152,9 @@ ggtree(mammal) +
 ggtree(mammal, layout = "circular") +
   geom_tiplab(color = "blue", size = 2)
 ```
+
+-   ggtree is used to create the tree from mammal phylogeny.
+
+### Conclusion
 
 -   I was able to learn to use ggtree to visualize a phylogeny tree and use different layout to create it. I don't think I have any questions in particular for now.
