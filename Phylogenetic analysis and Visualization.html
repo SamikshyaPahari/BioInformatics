@@ -96,6 +96,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<ul>
+<li>Creating the tree from mammal phylogeny from dataset in R Bioinformatics Cookbook.</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("ape")</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -114,6 +117,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#BiocManager::install("SGSeq")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ul>
+<li>ggtree is used to visualize evolutionary trees.</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rbioinfcookbook)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SGSeq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -289,10 +295,10 @@ Attaching package: 'ggplot2'</code></pre>
 
 Please cite:
 
-S Xu, Z Dai, P Guo, X Fu, S Liu, L Zhou, W Tang, T Feng, M Chen, L
-Zhan, T Wu, E Hu, Y Jiang, X Bo, G Yu. ggtreeExtra: Compact
-visualization of richly annotated phylogenetic data. Molecular Biology
-and Evolution. 2021, 38(9):4039-4042. doi: 10.1093/molbev/msab166</code></pre>
+Shuangbin Xu, Lin Li, Xiao Luo, Meijun Chen, Wenli Tang, Li Zhan, Zehan
+Dai, Tommy T. Lam, Yi Guan, Guangchuang Yu. Ggtree: A serialized data
+object for visualization of a phylogenetic tree and annotation data.
+iMeta 2022, 1(4):e56. doi:10.1002/imt2.56</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
@@ -327,6 +333,11 @@ Attaching package: 'ggtree'</code></pre>
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>newick <span class="ot">&lt;-</span> ape<span class="sc">::</span><span class="fu">read.tree</span>(newick_file_path)</span>
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>nexus <span class="ot">&lt;-</span> ape<span class="sc">::</span><span class="fu">read.nexus</span>(nexus_file_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ul>
+<li><p>Newick: creates evolutionary trees in text format.</p></li>
+<li><p>Nexus: also creates evolutionary trees in text format but adds DNA sequences or traits in the tree.</p></li>
+<li><p>Both Newick and Nexus falls under ape package.</p></li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>beast_file_path <span class="ot">&lt;-</span> fs<span class="sc">::</span><span class="fu">path_package</span>(<span class="st">"extdata"</span>, <span class="st">"beast_mcc.tree"</span>, <span class="at">package =</span> <span class="st">"rbioinfcookbook"</span>)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -335,6 +346,11 @@ Attaching package: 'ggtree'</code></pre>
 <span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>beast <span class="ot">&lt;-</span> <span class="fu">read.beast</span>(beast_file_path)</span>
 <span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>raxml <span class="ot">&lt;-</span> <span class="fu">read.raxml</span>(raxml_file_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ul>
+<li><p>This is the different package call treeio that has two different formats called BEAST and RAxML that is also used to create evolutionary trees.</p></li>
+<li><p>BEAST: uses Bayesian method to include different rates of evolution.</p></li>
+<li><p>RAxML: used for phylogenetic analysis of large datasets. It uses maximum likelihood which is the statistical technique used to find the best value for the evolutionary trees.</p></li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(newick)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -400,6 +416,9 @@ attr(,"package")
 </div>
 </div>
 </div>
+<ul>
+<li>Using ggtree to add labels to the evolutionary tree.</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggtree</span>(itol, <span class="at">layout =</span> <span class="st">"circular"</span>) <span class="sc">+</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tiplab</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -411,6 +430,9 @@ attr(,"package")
 </div>
 </div>
 </div>
+<ul>
+<li>By adding circular layout in the already existing code above, we made the change in how the evolutionary tree could be read.</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggtree</span>(itol, <span class="at">layout =</span> <span class="st">"circular"</span>) <span class="sc">+</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tiplab</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
@@ -423,6 +445,9 @@ attr(,"package")
 </div>
 </div>
 </div>
+<ul>
+<li>Using the color to highlight the particular clade.</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggtree</span>(itol) <span class="sc">+</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
@@ -435,6 +460,9 @@ attr(,"package")
 </div>
 </div>
 </div>
+<ul>
+<li>The same evolutionary tree could be invereted and read in the different format.</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggtree</span>(itol, <span class="at">layout =</span> <span class="st">"unrooted"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -491,8 +519,14 @@ attr(,"package")
 </div>
 </div>
 <ul>
+<li>ggtree is used to create the tree from mammal phylogeny.</li>
+</ul>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<ul>
 <li>I was able to learn to use ggtree to visualize a phylogeny tree and use different layout to create it. I don’t think I have any questions in particular for now.</li>
 </ul>
+</section>
 
 </main>
 <!-- /main column -->
